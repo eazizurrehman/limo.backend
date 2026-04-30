@@ -1,7 +1,7 @@
 import { createServer } from "node:http";
 import { createApplication } from "./app/index.js";
 
-async function main() {
+function main() {
   try {
     const server = createServer(createApplication());
     const PORT: number = 8080; // TODO: get from env variable

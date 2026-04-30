@@ -1,5 +1,5 @@
-import express from "express";
 import type { Express } from "express";
+import express from "express";
 
 export function createApplication(): Express {
   const app = express();
@@ -7,7 +7,7 @@ export function createApplication(): Express {
   // Middlewares
 
   // Routes
-  app.get("/health", (req, res) => {
+  app.get("/health", (_req, res) => {
     return res.json({ message: "App is healthy!" });
   });
 
