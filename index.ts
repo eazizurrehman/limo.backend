@@ -1,6 +1,6 @@
 import { createServer } from "node:http";
-import { createApplication } from "./app/index.js";
-import { env } from "./env/index.js";
+import { createApplication } from "@/app/index.js";
+import { env } from "@/env/index.js";
 
 function main() {
   try {
