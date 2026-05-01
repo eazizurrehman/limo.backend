@@ -1,16 +1,18 @@
 import { createServer } from "node:http";
-import { createApplication } from "@/app/index.js";
-import { env } from "@/env/index.js";
+import { createApplication } from "./app/index.js";
+import { env } from "./env/index.js";
 
 function main() {
   try {
     const server = createServer(createApplication());
 
     server.listen(env.PORT, () => {
-      console.log(`Http server is running on PORT ${env.PORT}`);
+      console.log(
+        `\n\x1b[42m\x1b[30m 🚀 Http server is running on port ${env.PORT} \x1b[0m\n`,
+      );
     });
   } catch (error) {
-    console.log(`Error starting http server`);
+    console.error("Error starting the server: ", error);
     throw error;
   }
 }

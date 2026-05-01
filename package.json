@@ -12,7 +12,11 @@
     "ts:check": "./.config/ts:check.sh",
     "biome:check": "./.config/biome:check.sh",
     "biome:migrate": "./.config/biome:migrate.sh",
-    "file:size:check": "./.config/file:size:check.sh"
+    "file:size:check": "./.config/file:size:check.sh",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio",
+    "db:push": "drizzle-kit push"
   },
   "keywords": [],
   "license": "UNLICENSED",
@@ -22,13 +26,19 @@
     "@biomejs/biome": "2.4.13",
     "@types/express": "^5.0.6",
     "@types/node": "^25.6.0",
+    "@types/pg": "^8.20.0",
+    "drizzle-kit": "^0.31.10",
     "lefthook": "^2.1.6",
-    "tsc-watch": "^7.2.0"
+    "tsc-watch": "^7.2.0",
+    "tsx": "^4.21.0"
   },
   "dependencies": {
     "@t3-oss/env-core": "^0.13.11",
     "dotenv": "^17.4.2",
+    "drizzle-orm": "^0.45.2",
+    "drizzle-zod": "^0.8.3",
     "express": "^5.2.1",
+    "pg": "^8.20.0",
     "zod": "^4.4.1"
   }
 }
