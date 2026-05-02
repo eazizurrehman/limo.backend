@@ -10,6 +10,9 @@ export const env = createEnv({
 
     // Database
     DATABASE_URL: z.string("DATABASE_URL is required"),
+
+    // Auth
+    JWT_SECRET: z.string("JWT_SECRET is required"),
   },
   emptyStringAsUndefined: true,
   runtimeEnv: {
@@ -19,5 +22,8 @@ export const env = createEnv({
 
     // Database
     DATABASE_URL: process.env.DATABASE_URL,
+
+    // Auth
+    JWT_SECRET: process.env.JWT_SECRET,
   },
 });
