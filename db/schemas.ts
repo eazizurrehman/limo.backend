@@ -1,1 +1,1 @@
-export * from "./vehicles/schema.js";
+export * from "@/db/vehicles/schema";
