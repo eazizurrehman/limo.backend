@@ -6,16 +6,15 @@ import type { UserTokenPayload } from "@/app/auth/utils";
 import { createUserToken } from "@/app/auth/utils";
 import { db } from "@/db";
 import { usersTable } from "@/db/users";
+import { ApiError } from "@/lib/api-error";
+import { ApiResponse } from "@/lib/api-response";
 
 class AuthenticationController {
   public async handleSignup(req: Request, res: Response) {
     const validationResult = await signupPayloadModel.safeParseAsync(req.body);
 
     if (validationResult.error)
-      return res.status(400).json({
-        message: "body validation failed",
-        error: validationResult.error.issues,
-      });
+      throw ApiError.badRequest("body validation failed");
 
     const { firstName, lastName, email, password } = validationResult.data;
 
@@ -25,10 +24,7 @@ class AuthenticationController {
       .where(eq(usersTable.email, email));
 
     if (userEmailResult.length > 0)
-      return res.status(400).json({
-        error: "duplicate entry",
-        message: `user with email ${email} already exists`,
-      });
+      throw ApiError.conflict(`user with email ${email} already exists`);
 
     const salt = randomBytes(32).toString("hex");
     const hash = createHmac("sha256", salt).update(password).digest("hex");
@@ -44,9 +40,8 @@ class AuthenticationController {
       })
       .returning({ id: usersTable.id });
 
-    return res.status(201).json({
-      message: "user has been created successfully",
-      data: { id: result?.id },
+    return ApiResponse.created(res, "user has been created successfully", {
+      result,
     });
   }
 
@@ -54,10 +49,7 @@ class AuthenticationController {
     const validationResult = await signinPayloadModel.safeParseAsync(req.body);
 
     if (validationResult.error)
-      return res.status(400).json({
-        message: "body validation failed",
-        error: validationResult.error.issues,
-      });
+      throw ApiError.badRequest("body validation failed");
 
     const { email, password } = validationResult.data;
 
@@ -67,27 +59,20 @@ class AuthenticationController {
       .where(eq(usersTable.email, email));
 
     if (!userSelect)
-      return res
-        .status(404)
-        .json({ message: `user with email ${email} does not exists` });
+      throw ApiError.badRequest(`email or password is incorrect`);
 
     const salt = userSelect.salt;
 
-    if (!salt)
-      return res
-        .status(400)
-        .json({ message: `email or password is incorrect` });
+    if (!salt) throw ApiError.badRequest(`email or password is incorrect`);
 
     const hash = createHmac("sha256", salt).update(password).digest("hex");
 
     if (userSelect.password !== hash)
-      return res
-        .status(400)
-        .json({ message: `email or password is incorrect` });
+      throw ApiError.badRequest(`email or password is incorrect`);
 
     const token = createUserToken({ id: userSelect.id });
 
-    return res.json({ message: "Signin Success", data: { token } });
+    return ApiResponse.ok(res, "Signin Success", { token });
   }
 
   public async handleMe(
@@ -101,7 +86,7 @@ class AuthenticationController {
       .from(usersTable)
       .where(eq(usersTable.id, id));
 
-    return res.json({
+    return ApiResponse.ok(res, "User info retrieved successfully", {
       firstName: userResult?.firstName,
       lastName: userResult?.lastName,
       email: userResult?.email,

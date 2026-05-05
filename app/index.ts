@@ -1,5 +1,6 @@
 import type { Express } from "express";
 import express from "express";
+import { ApiResponse } from "@/lib/api-response";
 
 export function createApplication(): Express {
   const app = express();
@@ -8,7 +9,7 @@ export function createApplication(): Express {
 
   // Routes
   app.get("/health", (_req, res) => {
-    return res.json({ message: "App is healthy!" });
+    return ApiResponse.ok(res, "App is healthy!");
   });
 
   return app;

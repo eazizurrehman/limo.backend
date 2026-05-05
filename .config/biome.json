@@ -67,7 +67,8 @@
         "noUselessFragments": {
           "level": "warn",
           "fix": "safe"
-        }
+        },
+        "noStaticOnlyClass": "off"
       },
       "a11y": {
         "noRedundantRoles": {
