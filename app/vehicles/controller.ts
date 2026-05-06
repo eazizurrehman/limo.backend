@@ -7,10 +7,12 @@ import { prevAndNext } from "@/db/utils";
 import { ApiResponse } from "@/lib/api-response";
 import { validate } from "@/lib/zod";
 
+const vehiclesSchemas = new VehicleSchemas();
+
 export class VehiclesController {
   public async getVehicles(req: Request, res: Response) {
     const { archived } = await validate({
-      schema: VehicleSchemas.getVehicles.query,
+      schema: vehiclesSchemas.getVehiclesQuery,
       raw: req.query,
     });
 
@@ -60,7 +62,7 @@ export class VehiclesController {
 
   public async getVehicle(req: Request, res: Response) {
     const { id } = await validate({
-      schema: VehicleSchemas.getVehicle.params,
+      schema: vehiclesSchemas.getVehicleParams,
       raw: req.params,
     });
 
@@ -99,7 +101,7 @@ export class VehiclesController {
 
   public async importVehicles(req: Request, res: Response) {
     const { vehicles } = await validate({
-      schema: VehicleSchemas.importVehicles.body,
+      schema: vehiclesSchemas.importVehiclesBody,
       raw: req.body,
     });
 
@@ -110,7 +112,7 @@ export class VehiclesController {
 
   public async addVehicle(req: Request, res: Response) {
     const data = await validate({
-      schema: VehicleSchemas.addVehicle.body,
+      schema: vehiclesSchemas.addVehicleBody,
       raw: req.body,
     });
 
@@ -123,12 +125,12 @@ export class VehiclesController {
 
   public async updateVehicle(req: Request, res: Response) {
     const { id } = await validate({
-      schema: VehicleSchemas.updateVehicle.params,
+      schema: vehiclesSchemas.updateVehicleParams,
       raw: req.params,
     });
 
     const data = await validate({
-      schema: VehicleSchemas.updateVehicle.body,
+      schema: vehiclesSchemas.updateVehicleBody,
       raw: req.body,
     });
 
@@ -138,6 +140,8 @@ export class VehiclesController {
       .where(eq(vehicle.id, String(id)))
       .returning();
 
+    if (!updatedVehicle) return ApiResponse.notFound(res, "Vehicle not found");
+
     return ApiResponse.ok(res, "Vehicle updated successfully", {
       vehicle: updatedVehicle,
     });
@@ -145,7 +149,7 @@ export class VehiclesController {
 
   public async archiveVehicle(req: Request, res: Response) {
     const { id } = await validate({
-      schema: VehicleSchemas.archiveVehicle.params,
+      schema: vehiclesSchemas.archiveVehicleParams,
       raw: req.params,
     });
 
@@ -164,7 +168,7 @@ export class VehiclesController {
 
   public async unarchiveVehicle(req: Request, res: Response) {
     const { id } = await validate({
-      schema: VehicleSchemas.unarchiveVehicle.params,
+      schema: vehiclesSchemas.unarchiveVehicleParams,
       raw: req.params,
     });
 
@@ -184,7 +188,7 @@ export class VehiclesController {
 
   public async deleteVehicle(req: Request, res: Response) {
     const { id } = await validate({
-      schema: VehicleSchemas.deleteVehicle.params,
+      schema: vehiclesSchemas.deleteVehicleParams,
       raw: req.params,
     });
 

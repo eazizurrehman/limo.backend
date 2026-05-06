@@ -1,5 +1,9 @@
-import type { infer as ZodInfer, ZodType } from "zod";
+import { type infer as ZodInfer, type ZodType, z } from "zod";
 import { ApiError } from "@/lib/api-error";
+
+export const uuidSchema = z
+  .uuid("ID is required")
+  .nonempty("ID cannot be empty");
 
 export async function validate<TSchema extends ZodType>({
   schema,

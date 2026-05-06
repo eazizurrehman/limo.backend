@@ -7,12 +7,6 @@ import {
   uuid,
   varchar,
 } from "drizzle-orm/pg-core";
-import {
-  createInsertSchema,
-  createSelectSchema,
-  createUpdateSchema,
-} from "drizzle-zod";
-import type z from "zod";
 import { VEHICLE_TYPES } from "@/app/vehicles/constants";
 
 export const vehicleTypeEnum = pgEnum("vehicle_type", VEHICLE_TYPES);
@@ -38,12 +32,3 @@ export const vehicle = pgTable(
   },
   (table) => [index("vehicle_archivedAt_idx").on(table.archivedAt)],
 );
-
-export const insertVehicleSchema = createInsertSchema(vehicle);
-export type TInsertVehicleSchema = z.infer<typeof insertVehicleSchema>;
-
-export const updateVehicleSchema = createUpdateSchema(vehicle);
-export type TUpdateVehicleSchema = z.infer<typeof updateVehicleSchema>;
-
-export const selectVehicleSchema = createSelectSchema(vehicle);
-export type TSelectVehicleSchema = z.infer<typeof selectVehicleSchema>;
