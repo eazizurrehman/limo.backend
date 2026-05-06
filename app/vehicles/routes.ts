@@ -2,46 +2,26 @@ import type { Router } from "express";
 import express from "express";
 import { VehiclesController } from "@/app/vehicles/controller";
 
-const vehiclesController = new VehiclesController();
+const controller = new VehiclesController();
 
 export const vehiclesRouter: Router = express.Router();
 
 vehiclesRouter.get(
   "/",
-  vehiclesController.getVehicles.bind(vehiclesController),
-);
-vehiclesRouter.get(
-  "/list",
-  vehiclesController.getVehiclesList.bind(vehiclesController),
-);
-vehiclesRouter.get(
-  "/:id",
-  vehiclesController.getVehicle.bind(vehiclesController),
-);
 
-vehiclesRouter.post(
-  "/import",
-  vehiclesController.importVehicles.bind(vehiclesController),
+  controller.getVehicles.bind(controller),
 );
-vehiclesRouter.post(
-  "/",
-  vehiclesController.addVehicle.bind(vehiclesController),
-);
+vehiclesRouter.get("/list", controller.getVehiclesList.bind(controller));
+vehiclesRouter.get("/:id", controller.getVehicle.bind(controller));
 
-vehiclesRouter.put(
-  "/:id",
-  vehiclesController.updateVehicle.bind(vehiclesController),
-);
-vehiclesRouter.put(
-  "/:id/archive",
-  vehiclesController.archiveVehicle.bind(vehiclesController),
-);
+vehiclesRouter.post("/import", controller.importVehicles.bind(controller));
+vehiclesRouter.post("/", controller.addVehicle.bind(controller));
+
+vehiclesRouter.put("/:id", controller.updateVehicle.bind(controller));
+vehiclesRouter.put("/:id/archive", controller.archiveVehicle.bind(controller));
 vehiclesRouter.put(
   "/:id/unarchive",
-  vehiclesController.unarchiveVehicle.bind(vehiclesController),
+  controller.unarchiveVehicle.bind(controller),
 );
 
-vehiclesRouter.delete(
-  "/:id",
-  vehiclesController.deleteVehicle.bind(vehiclesController),
-);
+vehiclesRouter.delete("/:id", controller.deleteVehicle.bind(controller));

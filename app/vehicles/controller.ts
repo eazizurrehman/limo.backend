@@ -5,13 +5,13 @@ import { db } from "@/db";
 import { vehicle } from "@/db/schemas";
 import { prevAndNext } from "@/db/utils";
 import { ApiResponse } from "@/lib/api-response";
-import { validate } from "@/lib/zod";
+import { validateData } from "@/lib/zod";
 
 const vehiclesSchemas = new VehicleSchemas();
 
 export class VehiclesController {
   public async getVehicles(req: Request, res: Response) {
-    const { archived } = await validate({
+    const { archived } = await validateData({
       schema: vehiclesSchemas.getVehiclesQuery,
       raw: req.query,
     });
@@ -61,7 +61,7 @@ export class VehiclesController {
   }
 
   public async getVehicle(req: Request, res: Response) {
-    const { id } = await validate({
+    const { id } = await validateData({
       schema: vehiclesSchemas.getVehicleParams,
       raw: req.params,
     });
@@ -100,7 +100,7 @@ export class VehiclesController {
   }
 
   public async importVehicles(req: Request, res: Response) {
-    const { vehicles } = await validate({
+    const { vehicles } = await validateData({
       schema: vehiclesSchemas.importVehiclesBody,
       raw: req.body,
     });
@@ -111,7 +111,7 @@ export class VehiclesController {
   }
 
   public async addVehicle(req: Request, res: Response) {
-    const data = await validate({
+    const data = await validateData({
       schema: vehiclesSchemas.addVehicleBody,
       raw: req.body,
     });
@@ -124,12 +124,12 @@ export class VehiclesController {
   }
 
   public async updateVehicle(req: Request, res: Response) {
-    const { id } = await validate({
+    const { id } = await validateData({
       schema: vehiclesSchemas.updateVehicleParams,
       raw: req.params,
     });
 
-    const data = await validate({
+    const data = await validateData({
       schema: vehiclesSchemas.updateVehicleBody,
       raw: req.body,
     });
@@ -148,7 +148,7 @@ export class VehiclesController {
   }
 
   public async archiveVehicle(req: Request, res: Response) {
-    const { id } = await validate({
+    const { id } = await validateData({
       schema: vehiclesSchemas.archiveVehicleParams,
       raw: req.params,
     });
@@ -167,7 +167,7 @@ export class VehiclesController {
   }
 
   public async unarchiveVehicle(req: Request, res: Response) {
-    const { id } = await validate({
+    const { id } = await validateData({
       schema: vehiclesSchemas.unarchiveVehicleParams,
       raw: req.params,
     });
@@ -187,7 +187,7 @@ export class VehiclesController {
   }
 
   public async deleteVehicle(req: Request, res: Response) {
-    const { id } = await validate({
+    const { id } = await validateData({
       schema: vehiclesSchemas.deleteVehicleParams,
       raw: req.params,
     });

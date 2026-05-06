@@ -1,7 +1,7 @@
 import type { Router } from "express";
 import express from "express";
 import AuthenticationController from "@/app/auth/controller";
-import { restrictToAuthenticatedUser } from "@/middleware/auth-middleware";
+import { restrictToAuthenticatedUser } from "@/app/auth/middleware";
 
 const authenticationController = new AuthenticationController();
 

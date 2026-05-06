@@ -5,19 +5,19 @@ export const uuidSchema = z
   .uuid("ID is required")
   .nonempty("ID cannot be empty");
 
-export async function validate<TSchema extends ZodType>({
+export async function validateData<TSchema extends ZodType>({
   schema,
   raw,
-  message = "Validation failed",
+  failure = "Validation failed",
 }: {
   schema: TSchema;
   raw: unknown;
-  message?: string;
+  failure?: string | undefined;
 }): Promise<ZodInfer<TSchema>> {
   const { success, data, error } = await schema.safeParseAsync(raw);
   console.log("Validation error:", error);
 
-  if (!success) throw ApiError.badRequest(message);
+  if (!success) throw ApiError.badRequest(failure || "Validation failed");
 
   return data;
 }

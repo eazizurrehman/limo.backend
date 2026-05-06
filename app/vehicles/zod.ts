@@ -40,40 +40,57 @@ export class VehicleSchemas {
     this.#base.partial().shape,
   );
 
-  public getVehiclesQuery = z.object({
-    archived: z
-      .preprocess(stringToBoolean, z.boolean("Archived must be true or false"))
-      .optional()
-      .default(false),
-  });
+  public getVehiclesQuery = z
+    .object({
+      archived: z
+        .preprocess(
+          stringToBoolean,
+          z.boolean("Archived must be true or false"),
+        )
+        .optional()
+        .default(false),
+    })
+    .meta({ source: "query" });
 
-  public getVehicleParams = z.object({
-    id: uuidSchema,
-  });
+  public getVehicleParams = z
+    .object({
+      id: uuidSchema,
+    })
+    .meta({ source: "params" });
 
-  public importVehiclesBody = z.object({
-    vehicles: z
-      .array(this.#insert)
-      .nonempty("At least one vehicle is required"),
-  });
+  public importVehiclesBody = z
+    .object({
+      vehicles: z
+        .array(this.#insert)
+        .nonempty("At least one vehicle is required"),
+    })
+    .meta({ source: "body" });
 
-  public addVehicleBody = this.#insert;
+  public addVehicleBody = this.#insert.meta({ source: "body" });
 
-  public updateVehicleParams = z.object({
-    id: uuidSchema,
-  });
+  public updateVehicleParams = z
+    .object({
+      id: uuidSchema,
+    })
+    .meta({ source: "params" });
 
-  public updateVehicleBody = this.#update;
+  public updateVehicleBody = this.#update.meta({ source: "body" });
 
-  public archiveVehicleParams = z.object({
-    id: uuidSchema,
-  });
+  public archiveVehicleParams = z
+    .object({
+      id: uuidSchema,
+    })
+    .meta({ source: "params" });
 
-  public unarchiveVehicleParams = z.object({
-    id: uuidSchema,
-  });
+  public unarchiveVehicleParams = z
+    .object({
+      id: uuidSchema,
+    })
+    .meta({ source: "params" });
 
-  public deleteVehicleParams = z.object({
-    id: uuidSchema,
-  });
+  public deleteVehicleParams = z
+    .object({
+      id: uuidSchema,
+    })
+    .meta({ source: "params" });
 }
