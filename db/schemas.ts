@@ -1,1 +1,2 @@
-export * from "@/db/vehicles/schema";
+export * from "@/app/vehicles/schema";
+export * from "@/db/users";

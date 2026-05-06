@@ -25,6 +25,13 @@ export class ApiResponse {
     });
   }
 
+  static notFound(res: Response, message: string): Response {
+    return res.status(404).json({
+      success: false,
+      message,
+    });
+  }
+
   static noContent(res: Response): Response {
     return res.status(204).send();
   }
