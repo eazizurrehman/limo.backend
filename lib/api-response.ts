@@ -3,7 +3,7 @@ import type { Response } from "express";
 export class ApiResponse {
   static ok<T>(
     res: Response,
-    message: string,
+    message: string = "Request successful",
     data: T | null = null,
   ): Response {
     return res.status(200).json({
@@ -15,7 +15,7 @@ export class ApiResponse {
 
   static created<T>(
     res: Response,
-    message: string,
+    message: string = "Created successfully",
     data: T | null = null,
   ): Response {
     return res.status(201).json({
@@ -25,9 +25,16 @@ export class ApiResponse {
     });
   }
 
-  static notFound(res: Response, message: string): Response {
+  static notFound(res: Response, message: string = "Not found"): Response {
     return res.status(404).json({
       success: false,
+      message,
+    });
+  }
+
+  static noData(res: Response, message: string = "No data"): Response {
+    return res.status(200).json({
+      success: true,
       message,
     });
   }

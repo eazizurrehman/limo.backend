@@ -15,9 +15,11 @@ export async function validateData<TSchema extends ZodType>({
   failure?: string | undefined;
 }): Promise<ZodInfer<TSchema>> {
   const { success, data, error } = await schema.safeParseAsync(raw);
-  console.log("Validation error:", error);
 
-  if (!success) throw ApiError.badRequest(failure || "Validation failed");
+  if (!success) {
+    console.error("Validation error:", error);
+    throw ApiError.badRequest(failure || "Validation failed");
+  }
 
   return data;
 }

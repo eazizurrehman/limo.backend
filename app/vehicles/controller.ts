@@ -11,10 +11,7 @@ const vehiclesSchemas = new VehicleSchemas();
 
 export class VehiclesController {
   public async getVehicles(req: Request, res: Response) {
-    const { archived } = await validateData({
-      schema: vehiclesSchemas.getVehiclesQuery,
-      raw: req.query,
-    });
+    const { archived } = req.validated.query;
 
     const vehicles = await db
       .select({
@@ -39,7 +36,7 @@ export class VehiclesController {
       );
 
     if (!vehicles || vehicles.length === 0)
-      return ApiResponse.notFound(res, "No vehicles found");
+      return ApiResponse.noData(res, "No vehicles found");
 
     return ApiResponse.ok(res, "Vehicles retrieved successfully", {
       vehicles,
@@ -53,7 +50,7 @@ export class VehiclesController {
       .where(isNull(vehicle.archivedAt));
 
     if (!vehiclesList || vehiclesList.length === 0)
-      return ApiResponse.notFound(res, "No vehicles found");
+      return ApiResponse.noData(res, "No vehicles found");
 
     return ApiResponse.ok(res, "Vehicles list retrieved successfully", {
       vehiclesList,
@@ -92,7 +89,7 @@ export class VehiclesController {
       .from(subquery)
       .where(eq(subquery.id, id));
 
-    if (!getVehicle) return ApiResponse.notFound(res, "Vehicle not found");
+    if (!getVehicle) return ApiResponse.noData(res, "Vehicle not found");
 
     return ApiResponse.ok(res, "Vehicle retrieved successfully", {
       vehicle: getVehicle,
@@ -140,7 +137,7 @@ export class VehiclesController {
       .where(eq(vehicle.id, String(id)))
       .returning();
 
-    if (!updatedVehicle) return ApiResponse.notFound(res, "Vehicle not found");
+    if (!updatedVehicle) return ApiResponse.noData(res, "Vehicle not found");
 
     return ApiResponse.ok(res, "Vehicle updated successfully", {
       vehicle: updatedVehicle,
@@ -159,7 +156,7 @@ export class VehiclesController {
       .where(eq(vehicle.id, String(id)))
       .returning();
 
-    if (!archivedVehicle) return ApiResponse.notFound(res, "Vehicle not found");
+    if (!archivedVehicle) return ApiResponse.noData(res, "Vehicle not found");
 
     return ApiResponse.ok(res, "Vehicle archived successfully", {
       vehicle: archivedVehicle,
@@ -178,8 +175,7 @@ export class VehiclesController {
       .where(eq(vehicle.id, String(id)))
       .returning();
 
-    if (!unarchivedVehicle)
-      return ApiResponse.notFound(res, "Vehicle not found");
+    if (!unarchivedVehicle) return ApiResponse.noData(res, "Vehicle not found");
 
     return ApiResponse.ok(res, "Vehicle unarchived successfully", {
       vehicle: unarchivedVehicle,
@@ -197,7 +193,7 @@ export class VehiclesController {
       .where(eq(vehicle.id, String(id)))
       .returning();
 
-    if (!deletedVehicle) return ApiResponse.notFound(res, "Vehicle not found");
+    if (!deletedVehicle) return ApiResponse.noData(res, "Vehicle not found");
 
     return ApiResponse.ok(res, "Vehicle deleted successfully", {
       vehicle: deletedVehicle,

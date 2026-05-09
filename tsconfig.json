@@ -28,5 +28,6 @@
   "tsc-alias": {
     "resolveFullPaths": true,
     "resolveFullExtension": ".js"
-  }
+  },
+  "include": ["**/*.ts", "types/**/*.d.ts"]
 }
