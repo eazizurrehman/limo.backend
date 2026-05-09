@@ -5,52 +5,52 @@ import { VehicleSchemas } from "@/app/vehicles/zod";
 import { validate } from "@/middlewares/validate";
 
 const controller = new VehiclesController();
-const vehicleSchemas = new VehicleSchemas();
+const schemas = new VehicleSchemas();
 
 export const vehiclesRouter: Router = express.Router();
 
 vehiclesRouter.get(
   "/",
-  validate(vehicleSchemas.getVehiclesQuery),
+  validate(schemas.getVehiclesQuery),
   controller.getVehicles.bind(controller),
 );
 vehiclesRouter.get("/list", controller.getVehiclesList.bind(controller));
 vehiclesRouter.get(
   "/:id",
-  validate(vehicleSchemas.getVehicleParams),
+  validate(schemas.getVehicleParams),
   controller.getVehicle.bind(controller),
 );
 
 vehiclesRouter.post(
   "/import",
-  validate(vehicleSchemas.importVehiclesBody),
+  validate(schemas.importVehiclesBody),
   controller.importVehicles.bind(controller),
 );
 vehiclesRouter.post(
   "/",
-  validate(vehicleSchemas.addVehicleBody),
+  validate(schemas.addVehicleBody),
   controller.addVehicle.bind(controller),
 );
 
 vehiclesRouter.put(
   "/:id",
-  validate(vehicleSchemas.updateVehicleParams),
-  validate(vehicleSchemas.updateVehicleBody),
+  validate(schemas.updateVehicleParams),
+  validate(schemas.updateVehicleBody),
   controller.updateVehicle.bind(controller),
 );
 vehiclesRouter.put(
   "/:id/archive",
-  validate(vehicleSchemas.archiveVehicleParams),
+  validate(schemas.archiveVehicleParams),
   controller.archiveVehicle.bind(controller),
 );
 vehiclesRouter.put(
   "/:id/unarchive",
-  validate(vehicleSchemas.unarchiveVehicleParams),
+  validate(schemas.unarchiveVehicleParams),
   controller.unarchiveVehicle.bind(controller),
 );
 
 vehiclesRouter.delete(
   "/:id",
-  validate(vehicleSchemas.deleteVehicleParams),
+  validate(schemas.deleteVehicleParams),
   controller.deleteVehicle.bind(controller),
 );
