@@ -42,4 +42,15 @@ export class ApiResponse {
   static noContent(res: Response): Response {
     return res.status(204).send();
   }
+
+  static error(
+    res: Response,
+    status: number = 500,
+    message: string = "An error occurred",
+  ): Response {
+    return res.status(status).json({
+      success: false,
+      message,
+    });
+  }
 }

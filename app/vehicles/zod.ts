@@ -5,7 +5,7 @@ import { vehicle } from "@/db/schemas";
 import { stringToBoolean } from "@/lib/utils";
 import { uuidSchema } from "@/lib/zod";
 
-export class VehicleSchemas {
+export class VehiclesSchemas {
   readonly #base = z.object({
     vehicleType: z.enum(VEHICLE_TYPES, {
       error: `Vehicle type must be one of: ${VEHICLE_TYPES.join(", ")}`,
@@ -93,4 +93,29 @@ export class VehicleSchemas {
       id: uuidSchema,
     })
     .meta({ source: "params" });
+}
+
+export namespace VehiclesSchemas {
+  export type TGetVehiclesQuery = z.infer<VehiclesSchemas["getVehiclesQuery"]>;
+  export type TGetVehicleParams = z.infer<VehiclesSchemas["getVehicleParams"]>;
+  export type TImportVehiclesBody = z.infer<
+    VehiclesSchemas["importVehiclesBody"]
+  >;
+  export type TAddVehicleBody = z.infer<VehiclesSchemas["addVehicleBody"]>;
+  export type TUpdateVehicleParams = z.infer<
+    VehiclesSchemas["updateVehicleParams"]
+  >;
+
+  export type TUpdateVehicleBody = z.infer<
+    VehiclesSchemas["updateVehicleBody"]
+  >;
+  export type TArchiveVehicleParams = z.infer<
+    VehiclesSchemas["archiveVehicleParams"]
+  >;
+  export type TUnarchiveVehicleParams = z.infer<
+    VehiclesSchemas["unarchiveVehicleParams"]
+  >;
+  export type TDeleteVehicleParams = z.infer<
+    VehiclesSchemas["deleteVehicleParams"]
+  >;
 }

@@ -1,11 +1,11 @@
 import type { Router } from "express";
 import express from "express";
 import { VehiclesController } from "@/app/vehicles/controller";
-import { VehicleSchemas } from "@/app/vehicles/zod";
+import { VehiclesSchemas } from "@/app/vehicles/zod";
 import { validate } from "@/middlewares/validate";
 
 const controller = new VehiclesController();
-const schemas = new VehicleSchemas();
+const schemas = new VehiclesSchemas();
 
 export const vehiclesRouter: Router = express.Router();
 

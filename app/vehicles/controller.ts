@@ -1,16 +1,14 @@
 import type { Request, Response } from "express";
 import { VehiclesService } from "@/app/vehicles/service";
-import { VehicleSchemas } from "@/app/vehicles/zod";
+import type { VehiclesSchemas } from "@/app/vehicles/zod";
 import { ApiResponse } from "@/lib/api-response";
-import { validateData } from "@/lib/zod";
-
-const vehiclesSchemas = new VehicleSchemas();
 
 export class VehiclesController {
   readonly #service = new VehiclesService();
 
   public async getVehicles(req: Request, res: Response) {
-    const { archived } = req.validated.query;
+    const { archived } = req.validated
+      .query as VehiclesSchemas.TGetVehiclesQuery;
 
     const vehicles = await this.#service.getAll(archived);
 
@@ -34,7 +32,7 @@ export class VehiclesController {
   }
 
   public async getVehicle(req: Request, res: Response) {
-    const { id } = req.validated.params;
+    const { id } = req.validated.params as VehiclesSchemas.TGetVehicleParams;
 
     const vehicle = await this.#service.getById(id);
 
@@ -46,10 +44,8 @@ export class VehiclesController {
   }
 
   public async importVehicles(req: Request, res: Response) {
-    const { vehicles } = await validateData({
-      schema: vehiclesSchemas.importVehiclesBody,
-      raw: req.body,
-    });
+    const { vehicles } = req.validated
+      .body as VehiclesSchemas.TImportVehiclesBody;
 
     await this.#service.import(vehicles);
 
@@ -57,10 +53,7 @@ export class VehiclesController {
   }
 
   public async addVehicle(req: Request, res: Response) {
-    const data = await validateData({
-      schema: vehiclesSchemas.addVehicleBody,
-      raw: req.body,
-    });
+    const data = req.validated.body as VehiclesSchemas.TAddVehicleBody;
 
     const vehicle = await this.#service.add(data);
 
@@ -70,12 +63,8 @@ export class VehiclesController {
   }
 
   public async updateVehicle(req: Request, res: Response) {
-    const { id } = req.validated.params;
-
-    const data = await validateData({
-      schema: vehiclesSchemas.updateVehicleBody,
-      raw: req.body,
-    });
+    const { id } = req.validated.params as VehiclesSchemas.TUpdateVehicleParams;
+    const data = req.validated.body as VehiclesSchemas.TUpdateVehicleBody;
 
     const updatedVehicle = await this.#service.update(id, data);
 
@@ -87,7 +76,8 @@ export class VehiclesController {
   }
 
   public async archiveVehicle(req: Request, res: Response) {
-    const { id } = req.validated.params;
+    const { id } = req.validated
+      .params as VehiclesSchemas.TArchiveVehicleParams;
 
     const archivedVehicle = await this.#service.archive(id);
 
@@ -99,7 +89,8 @@ export class VehiclesController {
   }
 
   public async unarchiveVehicle(req: Request, res: Response) {
-    const { id } = req.validated.params;
+    const { id } = req.validated
+      .params as VehiclesSchemas.TUnarchiveVehicleParams;
 
     const vehicle = await this.#service.unarchive(id);
 
@@ -111,7 +102,7 @@ export class VehiclesController {
   }
 
   public async deleteVehicle(req: Request, res: Response) {
-    const { id } = req.validated.params;
+    const { id } = req.validated.params as VehiclesSchemas.TDeleteVehicleParams;
 
     const vehicle = await this.#service.delete(id);
 

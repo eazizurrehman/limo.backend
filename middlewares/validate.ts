@@ -1,9 +1,7 @@
 import type { NextFunction, RequestHandler } from "express";
 import type { ZodType } from "zod";
 import { ApiError } from "@/lib/api-error";
-import { validateData } from "@/lib/zod";
-
-type ValidationSource = "body" | "query" | "params";
+import { type ValidationSource, validateData } from "@/lib/zod";
 
 export function validate<TSchema extends ZodType>(
   schema: TSchema,
