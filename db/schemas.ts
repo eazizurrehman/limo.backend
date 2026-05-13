@@ -1,2 +1,2 @@
+export * from "@/app/auth/schema";
 export * from "@/app/vehicles/schema";
-export * from "@/db/users";

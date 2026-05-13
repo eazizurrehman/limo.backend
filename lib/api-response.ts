@@ -13,6 +13,13 @@ export class ApiResponse {
     });
   }
 
+  static noData(res: Response, message: string = "No data"): Response {
+    return res.status(200).json({
+      success: true,
+      message,
+    });
+  }
+
   static created<T>(
     res: Response,
     message: string = "Created successfully",
@@ -25,22 +32,15 @@ export class ApiResponse {
     });
   }
 
+  static noContent(res: Response): Response {
+    return res.status(204).send();
+  }
+
   static notFound(res: Response, message: string = "Not found"): Response {
     return res.status(404).json({
       success: false,
       message,
     });
-  }
-
-  static noData(res: Response, message: string = "No data"): Response {
-    return res.status(200).json({
-      success: true,
-      message,
-    });
-  }
-
-  static noContent(res: Response): Response {
-    return res.status(204).send();
   }
 
   static error(
