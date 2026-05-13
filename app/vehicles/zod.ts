@@ -95,27 +95,10 @@ export class VehiclesSchemas {
     .meta({ source: "params" });
 }
 
-export namespace VehiclesSchemas {
-  export type TGetVehiclesQuery = z.infer<VehiclesSchemas["getVehiclesQuery"]>;
-  export type TGetVehicleParams = z.infer<VehiclesSchemas["getVehicleParams"]>;
-  export type TImportVehiclesBody = z.infer<
-    VehiclesSchemas["importVehiclesBody"]
-  >;
-  export type TAddVehicleBody = z.infer<VehiclesSchemas["addVehicleBody"]>;
-  export type TUpdateVehicleParams = z.infer<
-    VehiclesSchemas["updateVehicleParams"]
-  >;
+type TVehiclesSchemasInstance = InstanceType<typeof VehiclesSchemas>;
 
-  export type TUpdateVehicleBody = z.infer<
-    VehiclesSchemas["updateVehicleBody"]
-  >;
-  export type TArchiveVehicleParams = z.infer<
-    VehiclesSchemas["archiveVehicleParams"]
-  >;
-  export type TUnarchiveVehicleParams = z.infer<
-    VehiclesSchemas["unarchiveVehicleParams"]
-  >;
-  export type TDeleteVehicleParams = z.infer<
-    VehiclesSchemas["deleteVehicleParams"]
-  >;
-}
+export type TVehiclesSchemas = {
+  [K in keyof TVehiclesSchemasInstance as TVehiclesSchemasInstance[K] extends z.ZodTypeAny
+    ? K
+    : never]: z.infer<TVehiclesSchemasInstance[K]>;
+};

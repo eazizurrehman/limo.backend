@@ -4,14 +4,14 @@ import type { Request, Response } from "express";
 import { user } from "@/app/auth/schema";
 import type { UserTokenPayload } from "@/app/auth/utils";
 import { createUserToken } from "@/app/auth/utils";
-import type { AuthSchemas } from "@/app/auth/zod";
+import type { TAuthSchemas } from "@/app/auth/zod";
 import { db } from "@/db";
 import { ApiError } from "@/lib/api-error";
 import { ApiResponse } from "@/lib/api-response";
 
 export class AuthController {
   public async signupUser(req: Request, res: Response) {
-    const data = req.validated.body as AuthSchemas.TSignupUserBody;
+    const data = req.validated.body as TAuthSchemas["signupUserBody"];
 
     const { firstName, lastName, email, password } = data;
 
@@ -45,7 +45,7 @@ export class AuthController {
   }
 
   public async signinUser(req: Request, res: Response) {
-    const data = req.validated.body as AuthSchemas.TSigninUserBody;
+    const data = req.validated.body as TAuthSchemas["signinUserBody"];
 
     const { email, password } = data;
 

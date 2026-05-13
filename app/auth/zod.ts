@@ -22,7 +22,10 @@ export class AuthSchemas {
     .meta({ source: "body" });
 }
 
-export namespace AuthSchemas {
-  export type TSignupUserBody = z.infer<AuthSchemas["signupUserBody"]>;
-  export type TSigninUserBody = z.infer<AuthSchemas["signinUserBody"]>;
-}
+type TAuthSchemasInstance = InstanceType<typeof AuthSchemas>;
+
+export type TAuthSchemas = {
+  [K in keyof TAuthSchemasInstance as TAuthSchemasInstance[K] extends z.ZodTypeAny
+    ? K
+    : never]: z.infer<TAuthSchemasInstance[K]>;
+};
